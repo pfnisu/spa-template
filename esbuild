@@ -1,0 +1,19 @@
+#!/bin/sh
+# build project with esbuild
+
+ECHO=""; if test "$1" = "--dry-run"; then ECHO="echo "; fi
+BIN=$ECHO"/home/niko/bin/esbuild/node_modules/.bin/esbuild"
+OPT="--bundle --minify --target=es2017"
+IN="."
+OUT="build"
+
+check() {
+    test ! -f "$1" && echo "$1 missing" && exit 1
+}
+build() {
+    $BIN $OPT --outfile=$OUT/"$1" $IN/"$1"
+}
+
+check $BIN
+build "index.js"
+build "index.css"
