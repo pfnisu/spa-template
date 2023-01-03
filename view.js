@@ -1,3 +1,5 @@
+import {request} from './request.js'
+
 // Construct a view
 export function View(target, title = '', live = true) {
     target.title = title
@@ -9,13 +11,13 @@ export function View(target, title = '', live = true) {
         if (!live) target.loaded = true
     }
     // Reload logic is only spawned if view is live and visible
-    target.start = () => {
+    target.start = (interval) => {
         target.visible = true
         load()
         if (live && !target.id)
             target.id = setInterval(() => {
                 if (document.visibilityState === 'visible') load()
-            }, target.interval)
+            }, interval)
     }
     target.stop = () => {
         clearInterval(target.id)
@@ -25,7 +27,7 @@ export function View(target, title = '', live = true) {
 }
 
 // Initialize views
-export function Init(views, root, nav, initial = 0) {
+export function Init(views, root, nav) {
     for (const v of views) v.root = root
     // Set view to activated tab
     const setView = (ev) => {
@@ -34,11 +36,13 @@ export function Init(views, root, nav, initial = 0) {
         nav.innerHTML = views.reduce((cat, v) => `${cat}<a>${v.title}</a>`, '')
         const index = ev
             ? views.findIndex((v) => v.title === ev.target.textContent)
-            : initial
+            : request.cookie('tab') ?? 0
         nav.children[index].className = 'active'
         document.title = `${views[index].title}`
-        views[index].start()
+        views[index].start(request.interval)
+        request.cookie('tab', index)
     }
+    request.interval = request.cookie('interval') ?? 10000
     // Setup a listener for nav
     nav.addEventListener('mousedown', setView, true)
     setView()
