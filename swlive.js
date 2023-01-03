@@ -1,9 +1,10 @@
 import {View} from './view.js'
 import {request} from './request.js'
 
-export function StarWarsLive(root) {
-    View(this, root, 'Star Wars Person', true)
+export function StarWarsLive() {
+    View(this, 'Star Wars Person', true)
     this.tree.innerHTML = '<p>Loading...</p>'
+    this.interval = 5000
     this.person = 0
     this.compose = async () => {
         let json = await request.http(`https://swapi.dev/api/people/${++this.person}`)
