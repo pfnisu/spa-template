@@ -7,14 +7,10 @@ export function Hello() {
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>${this.title}</h1>
-            <button>Star Wars List</button>
-            <span></span>
+            <p></p>
             <p></p>`
         Menu(
             [new News(), new Contact()],
-            document.querySelector('p'),
-            document.querySelector('span'))
-        this.tree.querySelector('button')
-            .addEventListener('click', this.setView, true)
+            ...document.querySelectorAll('p'))
     }
 }
