@@ -7,7 +7,7 @@ export function Hello() {
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>${this.title}</h1>
-            <p></p>
+            <p id="submenu"></p>
             <p></p>`
         Menu(
             [new News(), new Contact()],

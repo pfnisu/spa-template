@@ -36,11 +36,11 @@ export function Menu(views, nav, root) {
         nav.innerHTML = views.reduce((cat, v) => `${cat}<a>${v.title}</a>`, '')
         const index = ev
             ? views.findIndex((v) => v.title === ev.target.textContent)
-            : request.cookie('tab') ?? 0
+            : request.cookie(nav.id || 'menu') ?? 0
         nav.children[index].className = 'active'
         document.title = `${views[index].title}`
         views[index].start(request.interval)
-        request.cookie('tab', index)
+        request.cookie(nav.id || 'menu', index)
     }
     request.interval = request.cookie('interval') ?? 10000
     // Setup a listener for nav

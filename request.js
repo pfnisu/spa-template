@@ -3,8 +3,10 @@ export let request = {
     // Get/set cookie value for a key
     cookie: (key, value = null) => {
         let match = ['', value]
-        if (value !== null) document.cookie = `${key}=${value}; SameSite=Strict`
-        else match = document.cookie.match(new RegExp(`${key}=([\\d]+)`))
+        if (value !== null)
+            document.cookie = `${key}=${value}; SameSite=Strict`
+        else if (key)
+            match = document.cookie.match(new RegExp(`${key}=([\\d]+)`))
         return match?.length > 1 ? match[1] : null
     },
     // Fetch as json, null on error
