@@ -6,7 +6,7 @@ export let request = {
         if (value !== null)
             document.cookie = `${key}=${value}; SameSite=Strict`
         else if (key)
-            match = document.cookie.match(new RegExp(`${key}=([\\d]+)`))
+            match = document.cookie.match(new RegExp(`\\b${key}=([\\d]+)`))
         return match?.length > 1 ? match[1] : null
     },
     // Fetch as json, null on error
