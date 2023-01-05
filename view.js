@@ -26,9 +26,8 @@ export function View(target, title = '', live = true) {
     }
 }
 
-// Initialize views
-export function Init(views, root, nav) {
-    for (const v of views) v.root = root
+// Construct a menu for views
+export function Menu(views, root, nav) {
     // Set view to activated tab
     const setView = (ev) => {
         for (const v of views) v.stop()
@@ -41,6 +40,10 @@ export function Init(views, root, nav) {
         document.title = `${views[index].title}`
         views[index].start(request.interval)
         request.cookie('tab', index)
+    }
+    for (const v of views) {
+        v.root = root
+        v.setView = setView
     }
     request.interval = request.cookie('interval') ?? 10000
     // Setup a listener for nav
