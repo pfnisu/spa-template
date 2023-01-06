@@ -1,13 +1,18 @@
-import {View} from './view.js'
+import {View, Menu} from './view.js'
+import {List} from './list.js'
+import {Info} from './info.js'
 import {request} from './request.js'
 
 export function StarWars() {
-    View(this, 'Star Wars List', false)
-    this.tree.innerHTML = '<p>Loading...</p>'
+    View(this, false, 'Star Wars Characters')
     this.compose = async () => {
-        let json = await request.http('https://swapi.dev/api/people')
-        this.tree.innerHTML = `<h1>${this.title}</h1>`
-        for (const person of json.results)
-            this.tree.innerHTML += `<p>${person.name}</p>`
+        this.tree.innerHTML =
+            `<h1>${this.title}</h1>
+            <div></div>`
+        Menu(
+            [new List(), new Info()],
+            this.tree.querySelector('div'),
+            null,
+            this.title)
     }
 }

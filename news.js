@@ -1,8 +1,8 @@
 import {View} from './view.js'
 
 export function News() {
-    View(this, 'News', false)
+    View(this, false, 'News')
     this.compose = async () => {
-        this.tree.innerHTML = `<p>${this.title}</p>`
+        this.tree.innerHTML = `<p>Coming soon...</p>`
     }
 }

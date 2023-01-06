@@ -2,7 +2,7 @@ import {View} from './view.js'
 import {request} from './request.js'
 
 export function StarWarsLive() {
-    View(this, 'Star Wars Person', true)
+    View(this, true, 'Star Wars LiveView')
     this.tree.innerHTML = '<p>Loading...</p>'
     this.person = 0
     this.compose = async () => {

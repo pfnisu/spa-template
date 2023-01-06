@@ -6,5 +6,5 @@ import {Menu} from './view.js'
 // Initialize state objects for views
 Menu(
     [new Hello(), new StarWars(), new StarWarsLive()],
-    document.querySelector('nav'),
-    document.querySelector('main'))
+    document.querySelector('main'),
+    document.querySelector('nav'))
