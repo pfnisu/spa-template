@@ -2,7 +2,7 @@ import {View} from './view.js'
 import {request} from './request.js'
 
 export function List() {
-    View(this)
+    View(this, 'List')
     this.tree.innerHTML = '<p>Loading...</p>'
     this.compose = async () => {
         let json = await request.http('https://swapi.dev/api/people')

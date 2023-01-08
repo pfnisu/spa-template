@@ -8,7 +8,8 @@ export function StarWars() {
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>${this.title}</h1>
-            <p>Data (id) is passed between subviews. List is static (fetched only once),
+            <p>Data (id) is passed between subviews<br/>
+            List is static (fetched only once)<br/>
             Info is live with interval = 0 (fetched on demand)</p>
             <div></div>`
         Menu(

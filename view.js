@@ -2,12 +2,11 @@ import {request} from './request.js'
 
 // View()   Construct a view
 // target   Target object, required to have target.compose()
-// title    Optional string used as menu and document title
+// id       Unique string used as menu id and document title
 // live     Optional boolean to construct a live or static view:
-//          live view uses target.interval
-//          (default = 10000, disable = 0)
-export function View(target, title = '', live = false) {
-    target.title = title
+//          live uses target.interval (default = 10000, disable = 0)
+export function View(target, id, live = false) {
+    target.title = id
     target.tree = document.createElement('div')
     // Replace view with updated tree
     const load = async () => {
@@ -39,22 +38,21 @@ export function View(target, title = '', live = false) {
 // nav      Optional navigation element:
 //          without nav, setView() is injected to each view
 //          for manual view switching via target attribute
-// title    Optional string used as menu and document title
+// title    Optional string used as document title
 export function Menu(views, root, nav = null, title = null) {
     // Switch to view that matches event
     const setView = (ev) => {
         for (const v of views) v.stop()
-        // TODO v.constructor.name doesn't work with minification
         const index = ev
-            ? views.findIndex((v) => v.constructor.name === ev.target.target)
+            ? views.findIndex((v) => v.title === ev.target.target)
             : request.cookie(nav?.id) ?? 0
-        if (nav !== null) {
+        if (nav) {
             nav.innerHTML = views.reduce((cat, v) =>
-                `${cat}<a target="${v.constructor.name}">${v.title}</a>`, '')
+                `${cat}<a target="${v.title}">${v.title}</a>`, '')
             nav.children[index].className = 'active'
             if (nav.id) request.cookie(nav.id, index)
         }
-        if (title !== null) document.title = `${title}${views[index].title}`
+        if (title) document.title = `${views[index].title}${title}`
         if (ev) views[index].data = ev.target.id
         views[index].start()
     }

@@ -9,7 +9,7 @@ export function Info() {
         if (!this.data) return
         let json = await request.http(
             `https://swapi.dev/api/people/${this.data}`)
-        this.tree.innerHTML = `<a target="List">&laquo; Back to list</a>`
+        this.tree.innerHTML = `<a target="List">&laquo; Back to list</a><br/>`
         for (const key in json)
             this.tree.innerHTML += `<p>${key}: ${json[key]}</p>`
         this.tree.querySelector('a')

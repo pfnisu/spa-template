@@ -1,6 +1,5 @@
 import {View, Menu} from './view.js'
-import {News} from './news.js'
-import {Contact} from './contact.js'
+import {Submenu} from './submenu.js'
 
 export function Hello() {
     View(this, 'Static submenu')
@@ -10,7 +9,8 @@ export function Hello() {
             <p id="submenu"></p>
             <div></div>`
         Menu(
-            [new News(), new Contact()],
+            [new Submenu('Tab 1', `<p>Static content is loaded once and cached</p>`),
+                new Submenu('Tab 2', `<p>Position is saved to cookie</p>`)],
             this.tree.querySelector('div'),
             this.tree.querySelector('p'))
     }
