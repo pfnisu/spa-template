@@ -3,7 +3,7 @@ import {List} from './list.js'
 import {Info} from './info.js'
 import {request} from './request.js'
 
-export function StarWars() {
+export function LiveMenu() {
     View(this, 'Live submenu')
     this.compose = async () => {
         this.tree.innerHTML =

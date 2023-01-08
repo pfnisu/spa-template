@@ -1,7 +1,7 @@
 import {View, Menu} from './view.js'
 import {Submenu} from './submenu.js'
 
-export function Hello() {
+export function Static() {
     View(this, 'Static submenu')
     this.compose = async () => {
         this.tree.innerHTML =
