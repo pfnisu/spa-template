@@ -1,7 +1,7 @@
 export default {
     // cookie() Get or set cookie:
-    //          returns value string if cookie is found or set,
-    //          otherwise null
+    //          Returns value string if cookie is found or set,
+    //          otherwise null.
     // key      Cookie name
     // value    Get cookie value if null, else set cookie to value
     cookie: (key, value = null) => {

@@ -14,4 +14,4 @@ http.createServer((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*')
         res.end(data)
     })
-}).listen(8000, () => console.log('Server running'))
+}).listen(8000, () => console.log('Listening localhost:8000'))

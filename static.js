@@ -9,8 +9,10 @@ export function Static() {
             <p id="submenu"></p>
             <div></div>`
         ui.menu(
-            [new Submenu('Tab 1', `<p>Static content is loaded once and cached</p>`),
-                new Submenu('Tab 2', `<p>Position is saved to cookie</p>`)],
+            [
+                new Submenu('Tab 1', `<p>Static content is loaded once and cached</p>`),
+                new Submenu('Tab 2', `<p>Position is saved to cookie</p>`)
+            ],
             this.tree.querySelector('div'),
             this.tree.querySelector('p'))
     }

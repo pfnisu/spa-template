@@ -5,7 +5,7 @@ export default {
     // target   Target object, required to have target.compose()
     // id       Unique string used as menu id and document title
     // live     Optional boolean to construct a live or static view:
-    //          live uses target.interval (default = 10000, disable = 0)
+    //          Live view uses target.interval (default = 10000, disable = 0)
     view: (target, id, live = false) => {
         target.title = id
         target.tree = document.createElement('div')
@@ -33,12 +33,12 @@ export default {
     },
 
     // menu()   Construct a menu of views
-    // views    Array of unique objects constructed with View()
+    // views    Array of unique objects constructed with view()
     // root     Root element
     // nav      Optional navigation element:
-    //          if nav has id, its position is saved to cookie
-    //          without nav, setView() is injected to each view
-    //          for manual view switching via target attribute
+    //          If nav has id, its position is saved to cookie.
+    //          Without nav, setView() is injected to each view
+    //          for manual switching via target attribute.
     // title    Optional string used as document title
     menu: (views, root, nav = null, title = null) => {
         // Switch to view that matches event

@@ -7,4 +7,4 @@ ui.menu(
     [new Static(), new LiveMenu(), new LiveView()],
     document.querySelector('main'),
     document.querySelector('nav'),
-    ' - View template')
+    ' | spa-template')
