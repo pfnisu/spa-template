@@ -2,7 +2,9 @@
 # build project with esbuild
 
 ECHO=""; if test "$1" = "--dry-run"; then ECHO="echo"; fi
-MIN="--minify"; if test "$1" = "--dev"; then MIN=""; fi
+#MIN="--minify"; if test "$1" = "--dev"; then MIN=""; fi
+#MIN="--minify --keep-names"; if test "$1" = "--dev"; then MIN=""; fi
+MIN="--minify-whitespace --minify-syntax"; if test "$1" = "--dev"; then MIN=""; fi
 BIN="/home/niko/bin/esbuild/node_modules/.bin/esbuild"
 OPT="--bundle --target=es2017"
 IN="."

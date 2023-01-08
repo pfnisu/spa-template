@@ -4,15 +4,15 @@ import {Info} from './info.js'
 import {request} from './request.js'
 
 export function StarWars() {
-    View(this, false, 'Star Wars Characters')
+    View(this, 'Live submenu')
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>${this.title}</h1>
+            <p>Data (id) is passed between subviews. List is static (fetched only once),
+            Info is live with interval = 0 (fetched on demand)</p>
             <div></div>`
         Menu(
             [new List(), new Info()],
-            this.tree.querySelector('div'),
-            null,
-            this.title)
+            this.tree.querySelector('div'))
     }
 }

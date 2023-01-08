@@ -3,7 +3,7 @@ import {News} from './news.js'
 import {Contact} from './contact.js'
 
 export function Hello() {
-    View(this, false, 'Hello world')
+    View(this, 'Static submenu')
     this.compose = async () => {
         this.tree.innerHTML =
             `<h1>${this.title}</h1>
@@ -12,7 +12,6 @@ export function Hello() {
         Menu(
             [new News(), new Contact()],
             this.tree.querySelector('div'),
-            this.tree.querySelector('p'),
-            `${this.title} - `)
+            this.tree.querySelector('p'))
     }
 }

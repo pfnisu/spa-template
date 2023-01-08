@@ -2,11 +2,11 @@ import {request} from './request.js'
 
 // View()   Construct a view
 // target   Target object, required to have target.compose()
-// live     Optional boolean to construct a live or static view:
-//          live view has default interval of 10s,
-//          can be set in target.interval (0 = disable)
 // title    Optional string used as menu and document title
-export function View(target, live = false, title = '') {
+// live     Optional boolean to construct a live or static view:
+//          live view uses target.interval
+//          (default = 10000, disable = 0)
+export function View(target, title = '', live = false) {
     target.title = title
     target.tree = document.createElement('div')
     // Replace view with updated tree
@@ -40,10 +40,11 @@ export function View(target, live = false, title = '') {
 //          without nav, setView() is injected to each view
 //          for manual view switching via target attribute
 // title    Optional string used as menu and document title
-export function Menu(views, root, nav = null, title = '') {
+export function Menu(views, root, nav = null, title = null) {
     // Switch to view that matches event
     const setView = (ev) => {
         for (const v of views) v.stop()
+        // TODO v.constructor.name doesn't work with minification
         const index = ev
             ? views.findIndex((v) => v.constructor.name === ev.target.target)
             : request.cookie(nav?.id) ?? 0
@@ -53,7 +54,7 @@ export function Menu(views, root, nav = null, title = '') {
             nav.children[index].className = 'active'
             if (nav.id) request.cookie(nav.id, index)
         }
-        document.title = `${title}${views[index].title}`
+        if (title !== null) document.title = `${title}${views[index].title}`
         if (ev) views[index].data = ev.target.id
         views[index].start()
     }
