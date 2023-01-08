@@ -18,7 +18,6 @@ export function View(target, id, live = false) {
     target.start = () => {
         target.visible = true
         load()
-        //const interval = request.cookie('interval') ?? 10000
         const interval = target.interval ?? 10000
         if (live && interval && !target.id)
             target.id = setInterval(() => {
@@ -36,6 +35,7 @@ export function View(target, id, live = false) {
 // views    Array of unique objects constructed with View()
 // root     Root element
 // nav      Optional navigation element:
+//          if nav has id, its position is saved to cookie
 //          without nav, setView() is injected to each view
 //          for manual view switching via target attribute
 // title    Optional string used as document title
