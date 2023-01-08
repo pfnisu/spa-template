@@ -62,7 +62,7 @@ p a {
     margin-right:4px;
     border:1px solid #484c54;
     border-radius:4px;
-    padding:4px;
+    padding:4px 8px;
     background:#5e5c64;
     color:#fff;
     text-shadow:2px 2px 2px #000;
@@ -73,7 +73,7 @@ p a:hover {
     color:#282c34;
     text-shadow:2px 2px 2px #fff;
 }
-p a:active {
+p a:active,p a.active {
     box-shadow:inset 1px 1px 1px #484c54;
 }
 p a:hover.active {
