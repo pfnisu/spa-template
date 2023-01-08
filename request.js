@@ -1,5 +1,4 @@
-// Utility methods for data
-export let request = {
+export default {
     // cookie() Get or set cookie:
     //          returns value string if cookie is found or set,
     //          otherwise null
@@ -13,6 +12,7 @@ export let request = {
             match = document.cookie.match(new RegExp(`\\b${key}=([\\d]+)`))
         return match?.length > 1 ? match[1] : null
     },
+
     // http()   Fetch as json, null on error
     // resource URI to fetch from
     // method   Optional method type (default = GET)
@@ -28,5 +28,5 @@ export let request = {
         } catch(e) {
             return null
         }
-    },
+    }
 }

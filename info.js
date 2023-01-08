@@ -1,8 +1,8 @@
-import {View} from './view.js'
-import {request} from './request.js'
+import ui from './ui.js'
+import request from './request.js'
 
 export function Info() {
-    View(this, 'Info', true)
+    ui.view(this, 'Info', true)
     this.tree.innerHTML = '<p>Loading...</p>'
     this.interval = 0
     this.compose = async () => {

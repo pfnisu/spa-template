@@ -1,8 +1,8 @@
-import {View} from './view.js'
-import {request} from './request.js'
+import ui from './ui.js'
+import request from './request.js'
 
 export function List() {
-    View(this, 'List')
+    ui.view(this, 'List')
     this.tree.innerHTML = '<p>Loading...</p>'
     this.compose = async () => {
         let json = await request.http('https://swapi.dev/api/people')

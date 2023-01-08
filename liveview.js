@@ -1,8 +1,8 @@
-import {View} from './view.js'
-import {request} from './request.js'
+import ui from './ui.js'
+import request from './request.js'
 
 export function LiveView() {
-    View(this, 'Live view', true)
+    ui.view(this, 'Live view', true)
     this.tree.innerHTML = '<p>Loading...</p>'
     this.person = 0
     this.interval = request.cookie('interval') ?? 20000
