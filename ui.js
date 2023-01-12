@@ -66,7 +66,7 @@ export default {
             if (nav) request.path(
                 nav.id,
                 views.findIndex((v) => v.title === ev.target.target))
-            else request.path(ev.target.target, ev.target.id ?? -1)
+            else request.path(ev.target.target, ev.target.id)
         }
         for (const v of views) {
             v.root = root

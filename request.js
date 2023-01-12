@@ -4,11 +4,11 @@ export default {
     // path()   Get or set parameters in URL hash
     // key      Param name
     // value    Get param value if null,
-    //          set param to value if >= 0,
-    //          remove param if < 0.
+    //          remove param if empty string,
+    //          else set param to value.
     path: (key, value = null) => {
         const match = window.location.hash.match(re(key))
-        if (value < 0)
+        if (value === '')
             window.location.hash = match.input.replace(`${match[0]}/`, '')
         else if (value !== null) {
             if (match?.length > 1)
