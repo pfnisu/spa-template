@@ -40,29 +40,41 @@ export default {
     //          Without nav, setView() is injected to each view
     //          for manual switching via target attribute.
     // title    Optional string used as document title
+    // TODO add param for hash clearing (keep state vs cleaner url)
     menu: (views, root, nav = null, title = null) => {
-        // Switch to view that matches event
-        const setView = (ev) => {
+        // Switch to view that matches hash
+        const setView = () => {
             for (const v of views) v.stop()
-            const index = ev
-                ? views.findIndex((v) => v.title === ev.target.target)
-                : request.cookie(nav?.id) ?? 0
+            let index = nav?.id
+                ? request.path(nav.id) ?? 0
+                : views.findIndex((v) => {
+                    v.data = request.path(v.title)
+                    return v.data !== null
+                })
+            if (index < 0) index = 0
             if (nav) {
                 nav.innerHTML = views.reduce((cat, v) =>
                     `${cat}<a target="${v.title}">${v.title}</a>`, '')
                 nav.children[index].className = 'active'
-                if (nav.id) request.cookie(nav.id, index)
             }
             if (title) document.title = `${views[index].title}${title}`
-            if (ev) views[index].data = ev.target.id
             views[index].start()
+        }
+        // Change location hash to match event
+        const setHash = (ev) => {
+            if (title) window.location.hash = ''
+            if (nav) request.path(
+                nav.id,
+                views.findIndex((v) => v.title === ev.target.target))
+            else request.path(ev.target.target, ev.target.id ?? -1)
         }
         for (const v of views) {
             v.root = root
-            if (nav === null) v.setView = setView
+            if (nav === null) v.setView = setHash
         }
-        // Setup a listener for nav
-        nav?.addEventListener('mousedown', setView, true)
+        // Setup listeners for nav and hash
+        nav?.addEventListener('mousedown', setHash, true)
+        window.addEventListener('hashchange', setView)
         setView()
     }
 }

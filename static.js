@@ -11,7 +11,7 @@ export function Static() {
         ui.menu(
             [
                 new Submenu('Tab 1', `<p>Static content is loaded once and cached</p>`),
-                new Submenu('Tab 2', `<p>Position is saved to cookie</p>`)
+                new Submenu('Tab 2', `<p>Position is pushed to URL hash</p>`)
             ],
             this.tree.querySelector('div'),
             this.tree.querySelector('p'))
