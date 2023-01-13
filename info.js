@@ -2,9 +2,9 @@ import ui from './ui.js'
 import request from './request.js'
 
 export function Info() {
-    ui.view(this, 'Info', true)
+    ui.view(this, 'character', true)
     this.tree.innerHTML =
-        `<a target="Info">&laquo; Back to list</a><br/>
+        `<a target="character">&laquo; Back to list</a><br/>
         <p>Loading...</p>`
     this.interval = 0
     this.compose = async () => {
@@ -15,6 +15,6 @@ export function Info() {
         for (const key in json) content += `<p>${key}: ${json[key]}</p>`
         this.tree.querySelector('p').innerHTML = content
         this.tree.querySelector('a')
-            .addEventListener('click', this.setView)
+            .addEventListener('click', this.navigate)
     }
 }

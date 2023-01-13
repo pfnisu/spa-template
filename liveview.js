@@ -11,7 +11,7 @@ export function LiveView() {
         this.tree.innerHTML =
             `<h1>${json.name}</h1>
             <p><a>Toggle</a>
-            View updates every ${this.interval / 1000}s, saved to cookie</p>
+            View updates every ${this.interval / 1000}s, frequency saved to cookie</p>
             <p>height: ${json.height}cm</p>
             <p>weight: ${json.mass}kg</p>`
         this.tree.querySelector('a').addEventListener('click', () => {
