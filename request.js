@@ -15,6 +15,25 @@ export default {
         return match?.length > 1 ? match[1] : null
     },
 
+    // hash()   Get or set parameters in URL hash
+    // key      Param name
+    // value    Get param value if null,
+    //          remove param if empty string,
+    //          else set param to value.
+    // TODO fix separators
+    hash: (key, value = null) => {
+        const match = window.location.hash.match(re(key))
+        if (value === '')
+            window.location.hash = match.input.replace(`${match[0]}/`, '')
+        else if (value !== null) {
+            if (match?.length > 1)
+                window.location.hash =
+                    match.input.replace(match[0], `${key}=${value}`)
+            else window.location.hash += `${key}=${value}/`
+        }
+        return match?.length > 1 ? match[1] : null
+    },
+
     // http()   Fetch as json, null on error
     // resource URI to fetch from
     // method   Optional method type (default = GET)
@@ -30,24 +49,5 @@ export default {
         } catch(e) {
             return null
         }
-    },
-
-    // path()   Get or set parameters in URL hash
-    // key      Param name
-    // value    Get param value if null,
-    //          remove param if empty string,
-    //          else set param to value.
-    // TODO fix separators
-    path: (key, value = null) => {
-        const match = window.location.hash.match(re(key))
-        if (value === '')
-            window.location.hash = match.input.replace(`${match[0]}/`, '')
-        else if (value !== null) {
-            if (match?.length > 1)
-                window.location.hash =
-                    match.input.replace(match[0], `${key}=${value}`)
-            else window.location.hash += `${key}=${value}/`
-        }
-        return match?.length > 1 ? match[1] : null
     }
 }

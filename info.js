@@ -4,7 +4,7 @@ import request from './request.js'
 export function Info() {
     ui.view(this, 'character', true)
     this.tree.innerHTML =
-        `<a target="character">&laquo; Back to list</a><br/>
+        `<a target="${this.title}">&laquo; Back to list</a><br/>
         <p>Loading...</p>`
     this.interval = 0
     this.compose = async () => {

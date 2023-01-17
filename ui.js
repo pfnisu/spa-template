@@ -5,21 +5,23 @@ export default {
     // views    Array of unique objects constructed with view()
     // root     Root element
     // nav      Optional navigation element:
-    // TODO main menu = no id, submenus = id
-    //          If nav has id, its position is saved to cookie.
+    //          Required to have id (= hash param) to allow multiple menus.
     //          Without nav, navigate() is injected to each view
     //          for manual switching via target attribute.
-    // title    Optional string used as document title
+    // title    Optional string used as document title:
+    //          Setting title will treat menu as main level.
+    // TODO main menu = no id, submenus = id
     // TODO add param for hash clearing (keep state vs cleaner url)
     // TODO consolidate titles and ids
     menu: (views, root, nav = null, title = null) => {
         // Switch to view that matches hash
         const setView = () => {
             for (const v of views) v.stop()
-            let index = nav?.id
-                ? request.path(nav.id) ?? 0
+            // TODO use view title directly
+            let index = nav
+                ? request.hash(nav.id) ?? 0
                 : views.findIndex((v) => {
-                    v.data = request.path(v.title)
+                    v.data = request.hash(v.title)
                     return v.data !== null
                 })
             if (index < 0) index = 0
@@ -34,10 +36,11 @@ export default {
         // Change location hash to match event
         const navigate = (ev) => {
             if (title) window.location.hash = ''
-            if (nav) request.path(
-                nav.id,
-                views.findIndex((v) => v.title === ev.target.target))
-            else request.path(ev.target.target, ev.target.id)
+            if (nav)
+                request.hash(
+                    nav.id,
+                    views.findIndex((v) => v.title === ev.target.target))
+            else request.hash(...ev.target.target.split('='), '')
         }
         for (const v of views) {
             v.root = root
@@ -51,16 +54,17 @@ export default {
 
     // view()   Construct a view
     // target   Target object, required to have target.compose()
-    // id       Unique string used as view id and title in menu
+    // title    Unique string used as view id and title in menu
     // live     Optional boolean to construct a live or static view:
     //          Live view uses target.interval (default = 10000, disable = 0)
-    view: (target, id, live = false) => {
-        target.title = id
+    view: (target, title, live = false) => {
+        target.title = title
         target.tree = document.createElement('div')
         // Replace view with updated tree
         const load = async () => {
             if (target.visible) target.root.replaceChildren(target.tree)
             if (!target.loaded) await target.compose()
+            // TODO possible async bug (remove await? or set loaded before)
             if (!live) target.loaded = true
         }
         // Reload logic is only spawned if view is live and visible

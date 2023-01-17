@@ -9,7 +9,7 @@ export function List() {
         this.tree.innerHTML = ''
         for (let i = 0; i < json.results.length;)
             this.tree.innerHTML +=
-                `<a target="character" id="${i + 1}">
+                `<a target="character=${i + 1}">
                 ${json.results[i++].name} &raquo;</a><br/>`
         this.tree.addEventListener('click', this.navigate, true)
     }
