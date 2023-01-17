@@ -20,17 +20,18 @@ export default {
     // value    Get param value if null,
     //          remove param if empty string,
     //          else set param to value.
-    // TODO fix separators
     hash: (key, value = null) => {
         const match = window.location.hash.match(re(key))
         if (value === '')
-            window.location.hash = match.input.replace(`${match[0]}/`, '')
+            window.location.hash = match.input.replace(`${match[0]}`, '')
         else if (value !== null) {
             if (match?.length > 1)
                 window.location.hash =
                     match.input.replace(match[0], `${key}=${value}`)
-            else window.location.hash += `${key}=${value}/`
+            else window.location.hash += `;${key}=${value}`
         }
+        window.location.hash &&=
+            window.location.hash.replace(/(?<=#|;);|;(?=$)/g, '')
         return match?.length > 1 ? match[1] : null
     },
 
