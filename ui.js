@@ -16,31 +16,28 @@ export default {
     menu: (views, root, nav = null, title = null) => {
         // Switch to view that matches hash
         const setView = () => {
-            for (const v of views) v.stop()
-            // TODO use view title directly
-            let index = nav
-                ? request.hash(nav.id) ?? 0
-                : views.findIndex((v) => {
-                    v.data = request.hash(v.title)
-                    return v.data !== null
-                })
-            if (index < 0) index = 0
+            for (const v of views) if (v.visible) v.stop()
             if (nav) {
                 nav.innerHTML = views.reduce((cat, v) =>
                     `${cat}<a target="${v.title}">${v.title}</a>`, '')
+                // TODO use view title directly
+                const index = request.hash(nav.id) ?? 0
                 nav.children[index].className = 'active'
+                if (title) document.title = `${views[index].title}${title}`
+                views[index].start()
+            } else {
+                const v = views.find((v) => request.hash(v.title))
+                v ? v.start() : views[0].start()
             }
-            if (title) document.title = `${views[index].title}${title}`
-            views[index].start()
         }
         // Change location hash to match event
         const navigate = (ev) => {
-            if (title) window.location.hash = ''
             if (nav)
                 request.hash(
                     nav.id,
-                    views.findIndex((v) => v.title === ev.target.target))
-            else request.hash(...ev.target.target.split('='), '')
+                    views.findIndex((v) => v.title === ev.target.target),
+                    title)
+            else request.hash(...ev.target.target.split('='), '', title)
         }
         for (const v of views) {
             v.root = root

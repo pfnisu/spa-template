@@ -20,18 +20,15 @@ export default {
     // value    Get param value if null,
     //          remove param if empty string,
     //          else set param to value.
-    hash: (key, value = null) => {
-        const match = window.location.hash.match(re(key))
-        if (value === '')
-            window.location.hash = match.input.replace(`${match[0]}`, '')
-        else if (value !== null) {
-            if (match?.length > 1)
-                window.location.hash =
-                    match.input.replace(match[0], `${key}=${value}`)
-            else window.location.hash += `;${key}=${value}`
+    // clear    Optional boolean to remove all previous params from hash
+    hash: (key, value = null, clear = false) => {
+        let hash = clear ? '' : window.location.hash
+        const match = hash.match(re(key)) || ['']
+        if (value !== null) {
+            hash = hash.replace(match[0], '')
+            if (value !== '') hash += `;${key}=${value}`
+            window.location.hash = hash.replace(/(?<=^|#|;);|;(?=$)/g, '')
         }
-        window.location.hash &&=
-            window.location.hash.replace(/(?<=#|;);|;(?=$)/g, '')
         return match?.length > 1 ? match[1] : null
     },
 
