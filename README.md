@@ -2,7 +2,7 @@
 
 ## App description
 
-Simple template for single-page applications. Repo contains an example app built with the template. Actual lib comprises only the files ui.js and request.js.
+Simple template for single-page applications. Repo contains an example app built with the template.
 
 ## Author
 
@@ -10,11 +10,12 @@ Niko Suoniemi <niko@tamperelainen.org>
 
 ## Technology
 
-* Vanilla Web Standards
+* Requires ES6+ features by default, but can be polyfilled with any bundler
 * Example app is bundled with esbuild
 
 ## Releases
 
+* v0.2.0          Reorganize files
 * v0.1.0          Initial version
 
 ## Licence
