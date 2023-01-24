@@ -9,9 +9,8 @@ export function Info() {
         <a href="#menu=1">&laquo; Character list (href)</a>`
     this.interval = 0
     this.compose = async () => {
-        if (!this.data) return
         let json = await request.http(
-            `https://swapi.dev/api/people/${this.data}`)
+            `https://swapi.dev/api/people/${request.hash(this.title)}`)
         let content = ''
         for (const key in json) content += `<p>${key}: ${json[key]}</p>`
         this.tree.querySelector('p').innerHTML = content
