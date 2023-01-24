@@ -1,4 +1,4 @@
-import ui from './ui.js'
+import ui from '../ui.js'
 import {Submenu} from './submenu.js'
 
 export function Static() {

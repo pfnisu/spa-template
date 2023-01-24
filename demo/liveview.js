@@ -1,5 +1,5 @@
-import ui from './ui.js'
-import request from './request.js'
+import ui from '../ui.js'
+import request from '../request.js'
 
 export function LiveView() {
     ui.view(this, 'Live view', true)

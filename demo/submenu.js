@@ -1,4 +1,4 @@
-import ui from './ui.js'
+import ui from '../ui.js'
 
 export function Submenu(title, html) {
     ui.view(this, title)

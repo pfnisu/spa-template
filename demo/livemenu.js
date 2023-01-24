@@ -1,4 +1,4 @@
-import ui from './ui.js'
+import ui from '../ui.js'
 import {List} from './list.js'
 import {Info} from './info.js'
 
