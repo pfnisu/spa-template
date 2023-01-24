@@ -15,21 +15,22 @@ export default {
         return match?.length > 1 ? match[1] : null
     },
 
-    // hash()   Get or set parameters in URL hash
+    // hash()   Get or set parameters in URL hash:
+    //          Returns value string or null.
     // key      Param name
     // value    Get param value if null,
     //          remove param if empty string,
     //          else set param to value.
-    // clear    Optional boolean to remove all previous params from hash
+    // clear    Optional boolean to remove all previous params
     hash: (key, value = null, clear = false) => {
         let hash = clear ? '' : window.location.hash
-        const match = hash.match(re(key)) || ['']
+        const match = hash.match(re(key)) || ['', value]
         if (value !== null) {
             hash = hash.replace(match[0], '')
             if (value !== '') hash += `;${key}=${value}`
             window.location.hash = hash.replace(/(?<=^|#|;);|;(?=$)/g, '')
         }
-        return match?.length > 1 ? match[1] : null
+        return match[1]
     },
 
     // http()   Fetch as json, null on error

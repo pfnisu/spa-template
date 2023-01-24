@@ -9,10 +9,8 @@ export default {
     //          Without nav, navigate() is injected to each view
     //          for manual switching via target attribute.
     // title    Optional string used as document title:
-    //          Setting title will treat menu as main level.
-    // TODO main menu = no id, submenus = id
-    // TODO add param for hash clearing (keep state vs cleaner url)
-    // TODO consolidate titles and ids
+    //          Passing title will treat menu as main level.
+    //          Used only if also passing nav.
     menu: (views, root, nav = null, title = null) => {
         // Switch to view that matches hash
         const setView = () => {
@@ -20,15 +18,12 @@ export default {
             if (nav) {
                 nav.innerHTML = views.reduce((cat, v) =>
                     `${cat}<a target="${v.title}">${v.title}</a>`, '')
-                // TODO use view title directly
                 const index = request.hash(nav.id) ?? 0
                 nav.children[index].className = 'active'
                 if (title) document.title = `${views[index].title}${title}`
                 views[index].start()
-            } else {
-                const v = views.find((v) => request.hash(v.title))
-                v ? v.start() : views[0].start()
-            }
+            } else
+                (views.find((v) => request.hash(v.title)) || views[0]).start()
         }
         // Change location hash to match event
         const navigate = (ev) => {
@@ -37,7 +32,7 @@ export default {
                     nav.id,
                     views.findIndex((v) => v.title === ev.target.target),
                     title)
-            else request.hash(...ev.target.target.split('='), '', title)
+            else request.hash(...ev.target.target.split('='), '')
         }
         for (const v of views) {
             v.root = root
@@ -61,7 +56,6 @@ export default {
         const load = async () => {
             if (target.visible) target.root.replaceChildren(target.tree)
             if (!target.loaded) await target.compose()
-            // TODO possible async bug (remove await? or set loaded before)
             if (!live) target.loaded = true
         }
         // Reload logic is only spawned if view is live and visible
@@ -70,7 +64,6 @@ export default {
             load()
             const interval = target.interval ?? 10000
             if (live && interval && !target.id)
-                // TODO s/id/iid
                 target.id = setInterval(() => {
                     if (document.visibilityState === 'visible') load()
                 }, interval)
