@@ -4,6 +4,19 @@
 
 Simple template for single-page applications. Repo contains an example app built with the template.
 
+## Background
+
+Key objectives for this project:
+
+* Most frontend frameworks are heavyweight and opinionated
+    * Provide minimal implementation of composable objects
+    * Don't reinvent parts of DOM, let the browser runtime handle stuff
+* View persistence is not well supported in most frameworks
+    * Provide persistent state by default
+    * Support static, on-demand and live-updating content
+* The concept of frontend routing violates standards and misleads users
+    * Use the hash fragment as a compliant way to navigate within a single document
+
 ## Author
 
 Niko Suoniemi <niko@tamperelainen.org>
