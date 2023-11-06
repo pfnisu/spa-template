@@ -1,17 +1,17 @@
 import request from './request.js'
 
 export default {
-    // menu()   Construct a menu of views
-    // views    Array of unique objects constructed with view()
+    // bind()   Bind an array of views to a root element
+    // views    Array of unique objects constructed with init()
     // root     Root element
-    // nav      Optional navigation element:
+    // nav      Optional navigation element for generating a menu:
     //          Required to have id (= hash param) to allow multiple menus.
     //          Without nav, navigate() is injected to each view
     //          for manual switching via target attribute.
     // title    Optional string used as document title:
     //          Passing title will treat menu as main level.
     //          Used only if also passing nav.
-    menu: (views, root, nav = null, title = null) => {
+    bind: (views, root, nav = null, title = null) => {
         // Switch to view that matches hash
         const setView = () => {
             for (const v of views) if (v.visible) v.stop()
@@ -44,12 +44,13 @@ export default {
         setView()
     },
 
-    // view()   Construct a view
+    // init()   Construct a composable view
     // target   Target object, required to have target.compose()
     // title    Unique string used as view id and title in menu
     // live     Optional boolean to construct a live or static view:
-    //          Live view uses target.interval (default = 10000, disable = 0)
-    view: (target, title, live = false) => {
+    //          Live view uses target.interval, default = 0 (on demand).
+    //          Static view is composed only once.
+    init: (target, title, live = true) => {
         target.title = title
         target.tree = document.createElement('div')
         // Replace view with updated tree
@@ -62,7 +63,7 @@ export default {
         target.start = () => {
             target.visible = true
             load()
-            const interval = target.interval ?? 10000
+            const interval = target.interval ?? 0
             if (live && interval && !target.id)
                 target.id = setInterval(() => {
                     if (document.visibilityState === 'visible') load()
