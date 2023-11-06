@@ -2,12 +2,11 @@ import ui from '../ui.js'
 import request from '../request.js'
 
 export function Info() {
-    ui.view(this, 'character', true)
+    ui.init(this, 'character')
     this.tree.innerHTML =
         `<a target="${this.title}">&laquo; Character list</a><br/>
         <p>Loading...</p>
         <a href="#menu=1">&laquo; Character list (href)</a>`
-    this.interval = 0
     this.compose = async () => {
         let json = await request.http(
             `https://swapi.dev/api/people/${request.hash(this.title)}`)

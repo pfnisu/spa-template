@@ -2,7 +2,7 @@ import ui from '../ui.js'
 import request from '../request.js'
 
 export function LiveView() {
-    ui.view(this, 'Live view', true)
+    ui.init(this, 'Live view')
     this.tree.innerHTML = '<p>Loading...</p>'
     this.person = 0
     this.interval = request.cookie('interval') ?? 20000
