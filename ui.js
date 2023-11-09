@@ -5,7 +5,7 @@ export default {
     // views    Array of unique objects constructed with init()
     // root     Root element
     // nav      Optional navigation element for generating a menu:
-    //          Required to have id (= hash param) to allow multiple menus.
+    //          Required to have id (i.e. hash param) to allow multiple menus.
     //          Without nav, navigate() is injected to each view
     //          for manual switching via target attribute.
     // title    Optional string used as document title:
@@ -48,10 +48,11 @@ export default {
     // target   Target object, required to have target.compose()
     // title    Unique string used as view id and title in menu
     // live     Optional boolean to construct a live or static view:
-    //          Live view uses target.interval, default = 0 (on demand).
+    //          Live view uses target.interval, default = 0 (i.e. on demand).
     //          Static view is composed only once.
     init: (target, title, live = true) => {
         target.title = title
+        target.listeners = []
         target.tree = document.createElement('div')
         // Replace view with updated tree
         const load = async () => {
@@ -73,6 +74,16 @@ export default {
             clearInterval(target.id)
             target.id = null
             target.visible = null
+        }
+        // Subscribe to notifications from target object
+        target.listen = (fn) => {
+            target.listeners.push(fn)
+        }
+        target.forget = (fn) => {
+            target.listeners = target.listeners.filter((el) => el !== fn)
+        }
+        target.notify = (data = null) => {
+            for (const fn of target.listeners) fn(data)
         }
     }
 }
