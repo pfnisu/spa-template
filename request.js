@@ -35,14 +35,16 @@ export default {
 
     // http()   Fetch as json, null on error
     // resource URI to fetch from
-    // method   Optional method type (default = GET)
-    http: async (resource, method = 'GET') => {
+    // method   Optional method type, default = GET
+    // data     JSON payload to send in the request body
+    http: async (resource, method = 'GET', data = null) => {
         try {
             let resp = await fetch(resource, {
                 method: method,
                 headers: {
                     'Content-type': 'application/json',
                 },
+                body: data && JSON.stringify(data),
             })
             if (resp.ok) return await resp.json()
         } catch(e) {
