@@ -27,16 +27,16 @@ export default {
         }
         // Change location hash to match event
         const navigate = (ev) => {
-            if (nav)
-                request.hash(
-                    nav.id,
-                    views.findIndex((v) => v.title === ev.target.target),
-                    title)
-            else request.hash(...ev.target.target.split('='), '')
+            request.hash(
+                nav.id,
+                views.findIndex((v) => v.title === ev.target.target),
+                title)
         }
         for (const v of views) {
             v.root = root
-            if (nav === null) v.navigate = navigate
+            if (nav === null)
+                v.navigate = (ev) =>
+                    request.hash(...ev.target.target.split('='), '')
         }
         // Setup listeners for nav and hash
         nav?.addEventListener('mousedown', navigate, true)
