@@ -6,8 +6,8 @@ export default {
     // root     Root element
     // nav      Optional navigation element for generating a menu:
     //          Required to have id (i.e. hash param) to allow multiple menus.
-    //          Without nav, navigate() is injected to each view
-    //          for manual switching via target attribute.
+    //          Without nav, navigation can be used by giving the element
+    //          a target attribute (key=value).
     // title    Optional string used as document title:
     //          Passing title will treat menu as main level.
     //          Used only if also passing nav.
@@ -25,21 +25,21 @@ export default {
             } else
                 (views.find((v) => request.hash(v.title)) || views[0]).start()
         }
-        // Change location hash to match event
-        const navigate = (ev) => {
-            request.hash(
-                nav.id,
-                views.findIndex((v) => v.title === ev.target.target),
-                title)
-        }
-        for (const v of views) {
-            v.root = root
-            if (nav === null)
-                v.navigate = (ev) =>
+        // Change location hash to match event target
+        if (nav)
+            nav.addEventListener('mousedown', (ev) => {
+                request.hash(
+                    nav.id,
+                    views.findIndex((v) => v.title === ev.target.target),
+                    title)
+            }, true)
+        else
+            root.addEventListener('click', (ev) => {
+                if (ev.target.target)
                     request.hash(...ev.target.target.split('='), '')
-        }
-        // Setup listeners for nav and hash
-        nav?.addEventListener('mousedown', navigate, true)
+            }, true)
+        for (const v of views) v.root = root
+        // Change view when hash changes
         window.addEventListener('hashchange', setView)
         setView()
     },
