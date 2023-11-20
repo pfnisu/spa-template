@@ -13,7 +13,5 @@ export function Info() {
         let content = ''
         for (const key in json) content += `<p>${key}: ${json[key]}</p>`
         this.tree.querySelector('p').innerHTML = content
-        this.tree.querySelector('a')
-            .addEventListener('click', this.navigate)
     }
 }
