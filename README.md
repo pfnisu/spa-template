@@ -11,9 +11,10 @@ Key objectives for this project:
 * Most frontend frameworks are heavyweight and opinionated
     * Provide minimal implementation of composable objects
     * Don't reinvent parts of DOM, let the browser runtime handle stuff
-* View persistence is not well supported in most frameworks
+* View persistence is not well supported in some frameworks
     * Provide persistent state by default
     * Support static, on-demand and live-updating content
+    * Allow for flexible communication between objects while encouraging proper encapsulation
 * The concept of frontend routing violates standards and misleads users
     * Use the hash fragment as a compliant way to navigate within a single document
 
@@ -28,6 +29,7 @@ Niko Suoniemi <niko@tamperelainen.org>
 
 ## Releases
 
+* v0.3.0          Improve API
 * v0.2.0          Reorganize files
 * v0.1.0          Initial version
 
