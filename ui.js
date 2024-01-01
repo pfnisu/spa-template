@@ -7,40 +7,25 @@ export default {
     // nav      Optional navigation element for generating a menu:
     //          Required to have id (i.e. hash param) to allow multiple menus.
     //          Without nav, navigation can be used by giving the element
-    //          a target attribute (key=value).
+    //          a href attribute (key=value).
     // title    Optional string used as document title:
     //          Passing title will treat menu as main level.
     //          Used only if also passing nav.
     bind: (views, root, nav = null, title = null) => {
         // Switch to view that matches hash
         const setView = () => {
-            for (const v of views) if (v.visible) v.stop()
+            for (const v of views) if (v.started) v.stop()
             if (nav) {
-                nav.innerHTML = views.reduce((cat, v) =>
-                    `${cat}<a target="${v.title}">${v.title}</a>`, '')
+                nav.innerHTML = views.reduce((cat, v, i) =>
+                    `${cat}<a href="#${nav.id}=${i}">${v.title}</a>`, '')
                 const index = request.hash(nav.id) ?? 0
                 nav.children[index].className = 'active'
                 if (title) document.title = `${views[index].title}${title}`
-                views[index].start()
-            } else
-                (views.find((v) => request.hash(v.title)) || views[0]).start()
+                views[index].start(root)
+            } else (views.find((v) => request.hash(v.title)) || views[0]).start(root)
         }
-        // Change location hash to match event target
-        if (nav)
-            nav.addEventListener('mousedown', (ev) => {
-                request.hash(
-                    nav.id,
-                    views.findIndex((v) => v.title === ev.target.target),
-                    title)
-            }, true)
-        else
-            root.addEventListener('click', (ev) => {
-                if (ev.target.target)
-                    request.hash(...ev.target.target.split('='), '')
-            }, true)
-        for (const v of views) v.root = root
         // Change view when hash changes
-        window.addEventListener('hashchange', setView)
+        if (views.length > 1) window.addEventListener('hashchange', setView)
         setView()
     },
 
@@ -50,40 +35,39 @@ export default {
     // live     Optional boolean to construct a live or static view:
     //          Live view uses target.interval, default = 0 (i.e. on demand).
     //          Static view is composed only once.
-    init: (target, title, live = true) => {
+    // tag      Optional tagName to use as container element of target.tree,
+    //          default = div.
+    init: (target, title, live = true, tag = 'div') => {
         target.title = title
-        target.listeners = []
-        target.tree = document.createElement('div')
+        target.tree = document.createElement(tag)
         // Replace view with updated tree
-        const load = async () => {
-            if (target.visible) target.root.replaceChildren(target.tree)
+        const load = async (root) => {
+            root.replaceChildren(target.tree)
             if (!target.loaded) await target.compose()
             if (!live) target.loaded = true
         }
-        // Reload logic is only spawned if view is live and visible
-        target.start = () => {
-            target.visible = true
-            load()
+        // Reload is only spawned if view is live and visible
+        target.start = (root) => {
+            target.started = true
+            load(root)
             const interval = target.interval ?? 0
             if (live && interval && !target.id)
                 target.id = setInterval(() => {
-                    if (document.visibilityState === 'visible') load()
+                    if (!document.hidden && !!target.tree.offsetParent) load(root)
                 }, interval)
         }
         target.stop = () => {
             clearInterval(target.id)
             target.id = null
-            target.visible = null
+            target.started = null
         }
         // Subscribe to notifications from target object
         target.listen = (fn) => {
+            target.listeners ??= []
             target.listeners.push(fn)
         }
-        target.forget = (fn) => {
-            target.listeners = target.listeners.filter((el) => el !== fn)
-        }
         target.notify = (data = null) => {
-            for (const fn of target.listeners) fn(data)
+            if (target.listeners) for (const fn of target.listeners) fn(data)
         }
     }
 }

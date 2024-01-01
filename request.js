@@ -6,10 +6,11 @@ export default {
     //          otherwise null.
     // key      Cookie name
     // value    Get cookie value if null, else set cookie to value
-    cookie: (key, value = null) => {
+    // age      Max-age in seconds, default = 60*60*24*365
+    cookie: (key, value = null, age = 31536000) => {
         let match = ['', value]
         if (value !== null)
-            document.cookie = `${key}=${value}; SameSite=Strict`
+            document.cookie = `${key}=${value};Max-Age=${age};SameSite=Strict`
         else if (key)
             match = document.cookie.match(re(key))
         return match?.length > 1 ? match[1] : null
@@ -37,13 +38,13 @@ export default {
     // resource URI to fetch from
     // method   Optional method type, default = GET
     // data     JSON payload to send in the request body
-    http: async (resource, method = 'GET', data = null) => {
+    // head     HTTP headers as object, default Content-type = JSON
+    http: async (resource, method = 'GET', data = null, head = {}) => {
+        head['Content-type'] ??= 'application/json'
         try {
             let resp = await fetch(resource, {
                 method: method,
-                headers: {
-                    'Content-type': 'application/json',
-                },
+                headers: head,
                 body: data && JSON.stringify(data),
             })
             if (resp.ok) return await resp.json()
