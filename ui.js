@@ -66,12 +66,18 @@ export default {
         target.live = live
         target.tree = document.createElement(tag)
         // Subscribe to notifications from target object
-        target.listen = (fn) => {
+        target.listen = (fn, type = null) => {
             target.listeners ??= []
-            target.listeners.push(fn)
+            target.listeners.push([fn, type])
         }
-        target.notify = (data = null) => {
-            if (target.listeners) for (const fn of target.listeners) fn(data)
+        target.forget = (fn) => {
+            if (target.listeners)
+                target.listeners = target.listeners.filter((l) => l[0] !== fn)
+        }
+        target.notify = (data = null, type = null) => {
+            if (target.listeners)
+                for (const l of target.listeners)
+                    if (l[1] === type) l[0](data)
         }
     }
 }
