@@ -2,7 +2,7 @@
 
 ## App description
 
-Simple template for single-page applications. Repo contains an example app built with the template.
+Simple template for single-page applications. See <https://github.com/pfnisu/nysse-qtc/> for usage.
 
 ## Background
 
@@ -20,7 +20,7 @@ Key objectives for this project:
 
 ## Author
 
-Niko Suoniemi <niko@tamperelainen.org>
+Niko Suoniemi <pfnisu@outlook.com>
 
 ## Technology
 
@@ -29,16 +29,15 @@ Niko Suoniemi <niko@tamperelainen.org>
 
 ## Releases
 
-* v0.3.0          Improve API
-* v0.2.0          Reorganize files
-* v0.1.0          Initial version
+* Latest stable release: v0.4.0
+* See tags for version history: <https://github.com/pfnisu/spa-template/tags>
 
-## Licence
+## License
 
-Copyright (C) 2023 Niko Suoniemi <niko@tamperelainen.org>
+Copyright (C) 2023-2025 Niko Suoniemi <pfnisu@outlook.com>
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
