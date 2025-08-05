@@ -15,6 +15,7 @@ Key objectives for this project:
     * Provide persistent state by default
     * Support static, on-demand and live-updating content
     * Allow for flexible communication between objects while encouraging proper encapsulation
+    * Lightweight lifecycle management
 * The concept of frontend routing violates standards and misleads users
     * Use the hash fragment as a compliant way to navigate within a single document
 
@@ -25,11 +26,11 @@ Niko Suoniemi <pfnisu@outlook.com>
 ## Technology
 
 * Requires ES6+ features by default, but can be polyfilled with any bundler
-* Example app is bundled with esbuild
+* Recommended bundler: esbuild
 
 ## Releases
 
-* Latest stable release: v0.4.0
+* Latest stable release: v0.5.0
 * See tags for version history: <https://github.com/pfnisu/spa-template/tags>
 
 ## License
