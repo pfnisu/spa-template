@@ -42,7 +42,9 @@ export const $ = (query, target = null, all = false) => {
 
 export default {
     // bind()   Bind an array of views to a root element
-    // views    Array of unique objects constructed with init()
+    // views    Array of unique objects constructed with init().
+    //          With array length 1 the view isn't bound to a lifecycle,
+    //          except initial view.start().
     // root     Root element
     // nav      Optional navigation element for generating a menu:
     //          Required to have id (i.e. hash param) to allow multiple menus.
@@ -55,15 +57,17 @@ export default {
         // Switch to view that matches hash
         const setView = () => {
             for (const v of views) if (v._started) stop(v)
-            if (nav) {
-                nav.innerHTML = views.reduce((cat, v, i) =>
-                    `${cat}<a href="#${nav.id}=${i}">${v.name}</a>`, '')
-                const index = request.hash(nav.id) || 0
-                nav.children[index].className = 'focus'
-                window.scroll(0, 0)
-                if (title) document.title = `${views[index].name}${title}`
-                start(views[index], root)
-            } else start(views.find((v) => request.hash(v.name)) || views[0], root)
+            if (root.getClientRects().length) {
+                if (nav) {
+                    nav.innerHTML = views.reduce((cat, v, i) =>
+                        `${cat}<a href="#${nav.id}=${i}">${v.name}</a>`, '')
+                    const index = request.hash(nav.id) || 0
+                    nav.children[index].className = 'focus'
+                    window.scroll(0, 0)
+                    if (title) document.title = `${views[index].name}${title}`
+                    start(views[index], root)
+                } else start(views.find((v) => request.hash(v.name)) || views[0], root)
+            }
         }
         // Change view when history changes
         if (views.length > 1) window.addEventListener('popstate', setView)
@@ -71,19 +75,19 @@ export default {
     },
 
     // init()   Construct a composable view
-    // target   Target object, required to have target.load().
-    //          Optional methods target.start() and target.stop()
-    //          are called on every view start/stop.
+    // view     Target object, required to have view.load().
+    //          Optional methods view.start() and view.stop()
+    //          are called on every corresponding view lifecycle stage.
     // name     Unique string used as view id and title in menu
     // live     Optional integer to construct a static or live view:
     //          default = null (static), 0 = on demand, >0 = interval (ms).
     //          Static view is loaded only once.
     // tag      Optional tagName to use as container element of target.tree:
     //          default = div.
-    init: (target, name, live = null, tag = 'div') => {
-        target.name = name
-        if (live !== null) target.live = live
-        target.tree = document.createElement(tag)
+    init: (view, name, live = null, tag = 'div') => {
+        view.name = name
+        if (live !== null) view.live = live
+        view.tree = document.createElement(tag)
     },
 
     // listen() Listen for notifications
